@@ -33,13 +33,17 @@ class AnswerQuestionPrompt < ActivePrompt::Prompt
 
   input :question
 
-  system_message <<~PROMPT
-    The user will ask you a question. Your job is to answer truthfully. If you don't know the answer, you can say "I don't know".
-  PROMPT
+  system_message do
+    <<~PROMPT
+      The user will ask you a question. Your job is to answer truthfully. If you don't know the answer, you can say "I don't know".
+    PROMPT
+  end
 
-  user_message do  <<~PROMPT
-    I have a question: #{question}?
-  PROMPT
+  user_message do
+    <<~PROMPT
+      I have a question: #{question}?
+    PROMPT
+  end
 end
 ```
 
