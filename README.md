@@ -57,7 +57,7 @@ AnswerQuestionPrompt.evaluate!(question: "What color is the sky?") # => "The sky
 
 ### Providers
 
-Providers are used to evaluate prompts. ActivePrompt comes with built-in providers for OpenAI & Azure OpenAI, but you can also define your own providers.
+Providers are used to evaluate prompts. ActivePrompt comes with built-in providers for OpenAI & Azure OpenAI.
 
 The `register_provider` method is used to register a provider:
 
@@ -66,3 +66,50 @@ ActivePrompt.register_provider(:openai_staging, ActivePrompt::Providers::OpenAI,
 ```
 
 You can write your own provider by implementing the methods in [`ActivePrompt::Providers::Base`](todo).
+
+The `provider` method is used to specify which provider to use when evaluating the prompt.
+
+```ruby
+class MyPrompt < ActivePrompt::Prompt
+  provider :openai_staging
+end
+```
+
+The `provider` method also accepts a block, which can be used to configure the provider on the fly:
+
+```ruby
+class MyPrompt < ActivePrompt::Prompt
+  provider do
+    ENV["IS_STAGING"] == "true" ? :openai_staging : :openai
+  end
+
+  # or
+
+  provider do
+    ActivePrompt::Providers::OpenAI.new(api_key: ENV["OPENAI_API_KEY"])
+  end
+end
+```
+
+### Models
+
+Models are passed to providers when evaluating prompts. The syntax to use them is similar to providers.
+
+```ruby
+class MyPrompt < ActivePrompt::Prompt
+  # Either specify the model name directly
+  model :gpt4
+
+  # Or specify a block that returns the model name
+  model do
+    ENV["IS_STAGING"] == "true" ? :gpt3 : :gpt4
+  end
+
+  # The block can also access prompt inputs
+  input :user
+
+  model do |inputs|
+    inputs.user.paid? ? :gpt4 : :gpt3
+  end
+end
+```
