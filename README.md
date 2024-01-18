@@ -24,4 +24,41 @@ bundle install
 
 ## Usage
 
-**TODO**
+Here's a simple example of a prompt that asks the user a question and then answers it:
+
+```ruby
+class AnswerQuestionPrompt < ActivePrompt::Prompt
+  provider :openai
+  model :gpt4
+
+  input :question
+
+  system_message <<~PROMPT
+    The user will ask you a question. Your job is to answer truthfully. If you don't know the answer, you can say "I don't know".
+  PROMPT
+
+  user_message do  <<~PROMPT
+    I have a question: #{question}?
+  PROMPT
+end
+```
+
+To evaluate a prompt, call `#evaluate!` on the prompt class:
+
+```ruby
+AnswerQuestionPrompt.evaluate!(question: "What color is the sky?") # => "The sky is blue."
+```
+
+## Advanced Usage
+
+### Providers
+
+Providers are used to evaluate prompts. ActivePrompt comes with built-in providers for OpenAI & Azure OpenAI, but you can also define your own providers.
+
+The `register_provider` method is used to register a provider:
+
+```ruby
+ActivePrompt.register_provider(:openai_staging, ActivePrompt::Providers::OpenAI, api_key: ENV["OPENAI_STAGING_API_KEY"])
+```
+
+You can write your own provider by implementing the methods in [`ActivePrompt::Providers::Base`](todo).
