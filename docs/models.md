@@ -26,7 +26,7 @@ The block has access to the prompt's inputs, which can be used to dynamically se
 class MyPrompt < ActivePrompt::Prompt
   input :user
 
-  model do |inputs|
+  model do
     inputs.user.paid? ? "gpt-4" : "gpt-3"
   end
 end

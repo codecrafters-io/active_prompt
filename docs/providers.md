@@ -51,7 +51,7 @@ The `provider` method's block also receives `inputs` as an argument:
 class MyPrompt < ActivePrompt::Prompt
   input :user
 
-  provider do |inputs|
+  provider do
     if inputs.user.paid?
       "openai"
     else
