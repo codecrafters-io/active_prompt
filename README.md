@@ -28,8 +28,8 @@ Here's a simple example of a prompt that asks the user a question and then answe
 
 ```ruby
 class AnswerQuestionPrompt < ActivePrompt::Prompt
-  provider :openai
-  model :gpt4
+  provider "openai"
+  model "gpt4"
 
   input :question
 
@@ -62,7 +62,7 @@ Providers are used to evaluate prompts. ActivePrompt comes with built-in provide
 The `register_provider` method is used to register a provider:
 
 ```ruby
-ActivePrompt.register_provider(:openai_staging, ActivePrompt::Providers::OpenAI, api_key: ENV["OPENAI_STAGING_API_KEY"])
+ActivePrompt.register_provider("openai_staging", ActivePrompt::Providers::OpenAI, api_key: ENV["OPENAI_STAGING_API_KEY"])
 ```
 
 You can write your own provider by implementing the methods in [`ActivePrompt::Providers::Base`](todo).
@@ -71,7 +71,7 @@ The `provider` method is used to specify which provider to use when evaluating t
 
 ```ruby
 class MyPrompt < ActivePrompt::Prompt
-  provider :openai_staging
+  provider "openai_staging"
 end
 ```
 
@@ -79,12 +79,12 @@ The `provider` method also accepts a block, which can be used to configure the p
 
 ```ruby
 class MyPrompt < ActivePrompt::Prompt
+  # Either return the provider key to use a registered provider:
   provider do
-    ENV["IS_STAGING"] == "true" ? :openai_staging : :openai
+    ENV["IS_STAGING"] == "true" ? "openai_staging" : "openai"
   end
 
-  # or
-
+  # or return a new provider instance:
   provider do
     ActivePrompt::Providers::OpenAI.new(api_key: ENV["OPENAI_API_KEY"])
   end
@@ -98,18 +98,18 @@ Models are passed to providers when evaluating prompts. The syntax to use them i
 ```ruby
 class MyPrompt < ActivePrompt::Prompt
   # Either specify the model name directly
-  model :gpt4
+  model "gpt-4"
 
   # Or specify a block that returns the model name
   model do
-    ENV["IS_STAGING"] == "true" ? :gpt3 : :gpt4
+    ENV["IS_STAGING"] == "true" ? "gpt-3" : "gpt-4"
   end
 
   # The block can also access prompt inputs
   input :user
 
   model do |inputs|
-    inputs.user.paid? ? :gpt4 : :gpt3
+    inputs.user.paid? ? "gpt-4" : "gpt-3"
   end
 end
 ```
