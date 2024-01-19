@@ -1,7 +1,6 @@
 # Providers
 
-Providers are used to evaluate prompts. ActivePrompt comes with built-in providers for OpenAI & Azure OpenAI, but you can write
-your own provider.
+Providers are used to evaluate prompts. ActivePrompt comes with built-in providers for OpenAI & Azure OpenAI, but you can write your own provider.
 
 ## Registering Providers
 

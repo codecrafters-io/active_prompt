@@ -36,7 +36,7 @@ class MyPrompt < ActivePrompt::Prompt
   input :last_message, optional: true
 end
 
-MyPrompt.evaluate!(user: User.first) # => does not raise ActivePrompt::MissingInputError even though last_message is not provided
+MyPrompt.generate_output!(user: User.first) # => does not raise ActivePrompt::MissingInputError even though last_message is not provided
 ```
 
 Presence of an input is checked by looking whether the key is present in the inputs hash. `nil` is a valid value for an input.

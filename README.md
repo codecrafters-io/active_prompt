@@ -49,10 +49,10 @@ class AnswerQuestionPrompt < ActivePrompt::Prompt
 end
 ```
 
-To evaluate a prompt, call `#evaluate!` on the prompt class:
+To get the output of a prompt, call `#generate_output!` on the prompt class:
 
 ```ruby
-AnswerQuestionPrompt.evaluate!(question: "What color is the sky?") # => "The sky is blue."
+AnswerQuestionPrompt.generate_output!(question: "What color is the sky?") # => "The sky is blue."
 ```
 
 ## Examples
@@ -68,4 +68,5 @@ TODO
 - [Providers](./docs/providers.md)
 - [Models](./docs/models.md)
 - [Inputs](./docs/inputs.md)
-- [Results](./docs/results.md)
+- [Outputs](./docs/outputs.md)
+- [Output Parsers](./docs/output_parsers.md)
